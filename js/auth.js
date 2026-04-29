@@ -1,32 +1,30 @@
 var USERS = [
-  { user: "cliente1", pass: "gonosororo2026" }
+  { phone: "820000001", pass: "gonosororo2026" }
 ];
 
 var SESSION_KEY = "membros_session";
 var SESSION_DAYS = 30;
 
-function login(user, pass, remember) {
-  var found = USERS.find(function(u) { return u.user === user && u.pass === pass; });
+function login(phone, pass) {
+  var clean = phone.replace(/\D/g, '').replace(/^258/, '');
+  var found = USERS.find(function(u) {
+    return u.phone.replace(/\D/g, '') === clean && u.pass === pass;
+  });
   if (!found) return false;
   var session = {
-    user: user,
-    expires: remember ? Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000 : null
+    phone: clean,
+    expires: Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000
   };
-  if (remember) {
-    localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  } else {
-    sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
-  }
+  localStorage.setItem(SESSION_KEY, JSON.stringify(session));
   return true;
 }
 
 function logout() {
   localStorage.removeItem(SESSION_KEY);
-  sessionStorage.removeItem(SESSION_KEY);
 }
 
 function isLoggedIn() {
-  var raw = localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY);
+  var raw = localStorage.getItem(SESSION_KEY);
   if (!raw) return false;
   try {
     var session = JSON.parse(raw);
@@ -41,10 +39,10 @@ function isLoggedIn() {
 }
 
 function getUser() {
-  var raw = localStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SESSION_KEY);
+  var raw = localStorage.getItem(SESSION_KEY);
   if (!raw) return null;
   try {
-    return JSON.parse(raw).user;
+    return JSON.parse(raw).phone;
   } catch(e) {
     return null;
   }

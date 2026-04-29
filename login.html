@@ -14,7 +14,33 @@
       width: 100%;
       max-width: 380px;
     }
+    .input-wrap {
+      display: flex;
+      align-items: center;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .input-wrap:focus-within { border-color: #dc2626; }
+    .input-prefix {
+      background: #f1f5f9;
+      padding: 10px 10px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #475569;
+      border-right: 1.5px solid #e2e8f0;
+      white-space: nowrap;
+    }
     .input-field {
+      flex: 1;
+      border: none;
+      padding: 10px 12px;
+      font-size: 0.95rem;
+      outline: none;
+      background: transparent;
+    }
+    .input-simple {
       width: 100%;
       border: 1.5px solid #e2e8f0;
       border-radius: 8px;
@@ -24,13 +50,13 @@
       box-sizing: border-box;
       transition: border-color 0.2s;
     }
-    .input-field:focus { border-color: #dc2626; }
+    .input-simple:focus { border-color: #dc2626; }
     .btn-primary {
       width: 100%;
       background: #dc2626;
       color: #fff;
       font-weight: 900;
-      padding: 12px;
+      padding: 13px;
       border-radius: 8px;
       border: none;
       font-size: 1rem;
@@ -48,11 +74,8 @@
       margin-bottom: 1rem;
       display: none;
     }
-    .label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; color: #1a1a1a; }
+    .label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 5px; color: #1a1a1a; }
     .field-group { margin-bottom: 1rem; }
-    .check-row { display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; }
-    .check-row input { accent-color: #dc2626; width: 16px; height: 16px; }
-    .check-row label { font-size: 0.85rem; color: #64748b; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col bg-background">
@@ -65,24 +88,23 @@
   <main class="flex-1 flex items-center justify-center px-4 py-10">
     <div class="login-card">
       <h2 style="font-size:1.3rem;font-weight:900;color:#1a1a1a;margin-bottom:4px;">Área de Membros</h2>
-      <p style="font-size:0.85rem;color:#64748b;margin-bottom:1.5rem;">Faça login para acessar o conteúdo exclusivo.</p>
+      <p style="font-size:0.85rem;color:#64748b;margin-bottom:1.5rem;">Acesso exclusivo para clientes.</p>
 
       <div id="error-msg" class="error-box"></div>
 
       <form id="login-form" onsubmit="handleLogin(event)">
         <div class="field-group">
-          <label class="label" for="username">Usuário</label>
-          <input class="input-field" type="text" id="username" placeholder="Seu usuário" autocomplete="username">
+          <label class="label" for="phone">Número de Telefone</label>
+          <div class="input-wrap">
+            <span class="input-prefix">+258</span>
+            <input class="input-field" type="tel" id="phone" placeholder="82 000 0000" autocomplete="tel" inputmode="numeric" maxlength="12">
+          </div>
         </div>
         <div class="field-group">
           <label class="label" for="password">Senha</label>
-          <input class="input-field" type="password" id="password" placeholder="Sua senha" autocomplete="current-password">
+          <input class="input-simple" type="password" id="password" placeholder="A sua senha" autocomplete="current-password">
         </div>
-        <div class="check-row">
-          <input type="checkbox" id="remember">
-          <label for="remember">Lembrar acesso no celular</label>
-        </div>
-        <button type="submit" class="btn-primary">Entrar</button>
+        <button type="submit" class="btn-primary" style="margin-top:0.5rem;">Entrar</button>
       </form>
     </div>
   </main>
@@ -97,14 +119,13 @@
 
     function handleLogin(e) {
       e.preventDefault();
-      var user = document.getElementById('username').value.trim();
+      var phone = document.getElementById('phone').value.trim();
       var pass = document.getElementById('password').value;
-      var remember = document.getElementById('remember').checked;
       var errorEl = document.getElementById('error-msg');
-      if (login(user, pass, remember)) {
+      if (login(phone, pass)) {
         window.location.href = 'membros.html';
       } else {
-        errorEl.textContent = 'Usuário ou senha incorretos. Tente novamente.';
+        errorEl.textContent = 'Número ou senha incorretos. Tente novamente.';
         errorEl.style.display = 'block';
       }
     }

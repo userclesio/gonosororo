@@ -1,16 +1,9 @@
-var USERS = [
-  { phone: "820000001", pass: "gonosororo2026" }
-];
-
 var SESSION_KEY = "membros_session";
 var SESSION_DAYS = 30;
 
 function login(phone, pass) {
   var clean = phone.replace(/\D/g, '').replace(/^258/, '');
-  var found = USERS.find(function(u) {
-    return u.phone.replace(/\D/g, '') === clean && u.pass === pass;
-  });
-  if (!found) return false;
+  if (!clean) return false;
   var session = {
     phone: clean,
     expires: Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000

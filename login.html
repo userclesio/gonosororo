@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Área de Membros — Login</title>
+  <link rel="stylesheet" href="css/styles-CczSZPpG.css">
+  <style>
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(0,0,0,0.10);
+      padding: 2rem;
+      width: 100%;
+      max-width: 380px;
+    }
+    .input-field {
+      width: 100%;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.95rem;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+    }
+    .input-field:focus { border-color: #dc2626; }
+    .btn-primary {
+      width: 100%;
+      background: #dc2626;
+      color: #fff;
+      font-weight: 900;
+      padding: 12px;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.88; }
+    .error-box {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      color: #b91c1c;
+      font-size: 0.875rem;
+      border-radius: 8px;
+      padding: 10px 14px;
+      margin-bottom: 1rem;
+      display: none;
+    }
+    .label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 4px; color: #1a1a1a; }
+    .field-group { margin-bottom: 1rem; }
+    .check-row { display: flex; align-items: center; gap: 8px; margin-bottom: 1.25rem; }
+    .check-row input { accent-color: #dc2626; width: 16px; height: 16px; }
+    .check-row label { font-size: 0.85rem; color: #64748b; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-background">
+  <header class="bg-primary">
+    <div class="max-w-3xl mx-auto px-6 py-5 flex items-center justify-center">
+      <h1 class="text-primary-foreground text-3xl font-black tracking-tight italic">dtv</h1>
+    </div>
+  </header>
+
+  <main class="flex-1 flex items-center justify-center px-4 py-10">
+    <div class="login-card">
+      <h2 style="font-size:1.3rem;font-weight:900;color:#1a1a1a;margin-bottom:4px;">Área de Membros</h2>
+      <p style="font-size:0.85rem;color:#64748b;margin-bottom:1.5rem;">Faça login para acessar o conteúdo exclusivo.</p>
+
+      <div id="error-msg" class="error-box"></div>
+
+      <form id="login-form" onsubmit="handleLogin(event)">
+        <div class="field-group">
+          <label class="label" for="username">Usuário</label>
+          <input class="input-field" type="text" id="username" placeholder="Seu usuário" autocomplete="username">
+        </div>
+        <div class="field-group">
+          <label class="label" for="password">Senha</label>
+          <input class="input-field" type="password" id="password" placeholder="Sua senha" autocomplete="current-password">
+        </div>
+        <div class="check-row">
+          <input type="checkbox" id="remember">
+          <label for="remember">Lembrar acesso no celular</label>
+        </div>
+        <button type="submit" class="btn-primary">Entrar</button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="bg-footer text-footer-foreground py-5">
+    <p class="text-center text-xs">Todos os direitos reservados © 2026.</p>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script>
+    if (isLoggedIn()) window.location.href = 'membros.html';
+
+    function handleLogin(e) {
+      e.preventDefault();
+      var user = document.getElementById('username').value.trim();
+      var pass = document.getElementById('password').value;
+      var remember = document.getElementById('remember').checked;
+      var errorEl = document.getElementById('error-msg');
+      if (login(user, pass, remember)) {
+        window.location.href = 'membros.html';
+      } else {
+        errorEl.textContent = 'Usuário ou senha incorretos. Tente novamente.';
+        errorEl.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

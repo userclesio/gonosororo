@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Área de Membros — Gonosororo Natural</title>
+  <link rel="stylesheet" href="css/styles-CczSZPpG.css">
+  <style>
+    * { box-sizing: border-box; }
+    body { background: #f8f8f8; }
+
+    /* Header */
+    .header-inner { max-width: 900px; margin: 0 auto; padding: 0 1.5rem; display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .logo { font-size: 1.8rem; font-weight: 900; font-style: italic; color: #fff; letter-spacing: -1px; }
+    .btn-sair { background: rgba(255,255,255,0.15); color: #fff; border: none; border-radius: 8px; padding: 7px 18px; font-size: 0.85rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+    .btn-sair:hover { background: rgba(255,255,255,0.25); }
+    .welcome-tag { color: rgba(255,255,255,0.75); font-size: 0.8rem; }
+
+    /* Tabs */
+    .tabs-bar { background: #fff; border-bottom: 2px solid #e5e7eb; }
+    .tabs-inner { max-width: 900px; margin: 0 auto; display: flex; }
+    .tab-btn { padding: 14px 22px; font-size: 0.9rem; font-weight: 700; color: #64748b; background: none; border: none; border-bottom: 3px solid transparent; margin-bottom: -2px; cursor: pointer; transition: color 0.2s, border-color 0.2s; white-space: nowrap; }
+    .tab-btn.active { color: #dc2626; border-bottom-color: #dc2626; }
+    .tab-btn:hover:not(.active) { color: #1a1a1a; }
+
+    /* Content */
+    .content-wrap { max-width: 900px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+    .section { display: none; }
+    .section.active { display: block; }
+
+    /* Welcome card */
+    .welcome-card { background: #fff; border-radius: 14px; padding: 1.75rem; margin-bottom: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .welcome-card h2 { font-size: 1.35rem; font-weight: 900; color: #1a1a1a; margin-bottom: 0.5rem; }
+    .welcome-card p { font-size: 0.9rem; color: #64748b; line-height: 1.6; }
+    .feature-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-top: 1.25rem; }
+    @media(max-width:500px){ .feature-list { grid-template-columns: 1fr; } }
+    .feature-item { background: #fef2f2; border-radius: 10px; padding: 0.9rem 1rem; display: flex; align-items: flex-start; gap: 10px; }
+    .feature-icon { font-size: 1.4rem; line-height: 1; }
+    .feature-title { font-size: 0.85rem; font-weight: 800; color: #dc2626; margin-bottom: 2px; }
+    .feature-desc { font-size: 0.78rem; color: #64748b; }
+
+    /* Videos */
+    .section-title { font-size: 1.2rem; font-weight: 900; color: #1a1a1a; margin-bottom: 1.25rem; }
+    .videos-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    @media(max-width:600px){ .videos-grid { grid-template-columns: 1fr; } }
+    .video-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .video-wrap { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; }
+    .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+    .video-label { padding: 10px 12px; font-size: 0.8rem; font-weight: 700; color: #1a1a1a; line-height: 1.3; }
+
+    /* PDF */
+    .pdf-card { background: #fff; border-radius: 14px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); text-align: center; max-width: 480px; margin: 0 auto; }
+    .pdf-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .pdf-card h3 { font-size: 1.2rem; font-weight: 900; color: #1a1a1a; margin-bottom: 0.5rem; }
+    .pdf-card p { font-size: 0.88rem; color: #64748b; margin-bottom: 1.5rem; line-height: 1.5; }
+    .btn-download { display: inline-flex; align-items: center; gap: 8px; background: #dc2626; color: #fff; font-weight: 900; padding: 13px 28px; border-radius: 10px; font-size: 0.95rem; text-decoration: none; transition: opacity 0.2s; }
+    .btn-download:hover { opacity: 0.88; }
+
+    /* FAQ */
+    .faq-category { background: #fff; border-radius: 14px; padding: 1.5rem; margin-bottom: 1.25rem; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+    .faq-cat-title { display: flex; align-items: center; gap: 10px; font-size: 1.05rem; font-weight: 900; color: #dc2626; margin-bottom: 1rem; }
+    .faq-cat-icon { font-size: 1.4rem; }
+    .faq-item { border-top: 1px solid #f1f5f9; }
+    .faq-item:first-of-type { border-top: none; }
+    .faq-question { width: 100%; background: none; border: none; text-align: left; padding: 14px 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 0.9rem; font-weight: 700; color: #1a1a1a; gap: 12px; }
+    .faq-question:hover { color: #dc2626; }
+    .faq-arrow { font-size: 1rem; color: #94a3b8; transition: transform 0.25s; flex-shrink: 0; }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); color: #dc2626; }
+    .faq-answer { display: none; padding: 0 0 14px 0; font-size: 0.875rem; color: #64748b; line-height: 1.65; }
+    .faq-item.open .faq-answer { display: block; }
+  </style>
+</head>
+<body>
+  <header class="bg-primary">
+    <div class="header-inner">
+      <span class="logo">dtv</span>
+      <span class="welcome-tag" id="welcome-tag"></span>
+      <button class="btn-sair" onclick="doLogout()">Sair</button>
+    </div>
+  </header>
+
+  <div class="tabs-bar">
+    <div class="tabs-inner">
+      <button class="tab-btn active" onclick="showTab('inicio', this)">Início</button>
+      <button class="tab-btn" onclick="showTab('aulas', this)">Aulas</button>
+      <button class="tab-btn" onclick="showTab('pdf', this)">PDF</button>
+      <button class="tab-btn" onclick="showTab('suporte', this)">Suporte</button>
+    </div>
+  </div>
+
+  <div class="content-wrap">
+
+    <!-- INÍCIO -->
+    <div id="tab-inicio" class="section active">
+      <div class="welcome-card">
+        <h2>Bem-vindo à Área de Membros!</h2>
+        <p>Aqui você encontra tudo o que precisa para transformar sua potência, vitalidade e vida íntima com o poder da natureza. Explore o conteúdo exclusivo preparado para você.</p>
+        <div class="feature-list">
+          <div class="feature-item">
+            <span class="feature-icon">🎬</span>
+            <div>
+              <div class="feature-title">Aulas em Vídeo</div>
+              <div class="feature-desc">6 receitas em português com ingredientes naturais</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">📥</span>
+            <div>
+              <div class="feature-title">Guia em PDF</div>
+              <div class="feature-desc">Material completo para baixar e consultar offline</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">💪</span>
+            <div>
+              <div class="feature-title">Potência Sexual</div>
+              <div class="feature-desc">Respostas sobre desempenho e saúde masculina</div>
+            </div>
+          </div>
+          <div class="feature-item">
+            <span class="feature-icon">❤️</span>
+            <div>
+              <div class="feature-title">Vida a Dois</div>
+              <div class="feature-desc">Dicas para melhorar a relação com a parceira</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AULAS -->
+    <div id="tab-aulas" class="section">
+      <p class="section-title">🎬 Aulas de Receitas Naturais</p>
+      <div class="videos-grid">
+        <div class="video-card">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/hfKle56xVFc" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="video-label">Suco que Turbina a Ereção — Receita Completa</div>
+        </div>
+        <div class="video-card">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/6r0YRH86ZB8" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="video-label">Suco de Melancia com Gengibre — Viagra Natural</div>
+        </div>
+        <div class="video-card">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/D_5qhfF6x80" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="video-label">Sucos Poderosos para Melhorar a Ereção</div>
+        </div>
+        <div class="video-card">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/SGvTRnOf450" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="video-label">Beterraba: 7 Benefícios para a Potência Sexual</div>
+        </div>
+        <div class="video-card">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/TukJWRWAaK4" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="video-label">Suco de Beterraba contra a Disfunção Erétil</div>
+        </div>
+        <div class="video-card">
+          <div class="video-wrap">
+            <iframe src="https://www.youtube.com/embed/NeQDqSvxlBs" allowfullscreen loading="lazy"></iframe>
+          </div>
+          <div class="video-label">Melancia com Limão e Gengibre — Estimulante Natural</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PDF -->
+    <div id="tab-pdf" class="section">
+      <div class="pdf-card">
+        <div class="pdf-icon">📘</div>
+        <h3>Guia Completo Gonosororo Natural</h3>
+        <p>Baixe o guia completo com todas as receitas, doses, ingredientes e orientações detalhadas para obter os melhores resultados.</p>
+        <a href="pdf/guia.pdf" download class="btn-download">
+          <span>⬇</span> Baixar Guia em PDF
+        </a>
+      </div>
+    </div>
+
+    <!-- SUPORTE / FAQ -->
+    <div id="tab-suporte" class="section">
+      <p class="section-title">💬 Central de Suporte</p>
+
+      <!-- Categoria 1: Potência Sexual -->
+      <div class="faq-category">
+        <div class="faq-cat-title"><span class="faq-cat-icon">💪</span> Potência Sexual</div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            O que é disfunção erétil e ela tem cura natural?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">A disfunção erétil é a dificuldade persistente de obter ou manter uma ereção satisfatória. Em muitos casos, especialmente os de origem vascular ou hormonal, pode ser significativamente melhorada com mudanças no estilo de vida, alimentação adequada e uso contínuo das receitas naturais do programa.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Com quantos dias começo a sentir os efeitos?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">A maioria dos homens relata melhorias na energia e no desempenho entre 7 e 21 dias de uso contínuo. Os resultados variam conforme a idade, hábitos de vida e estado de saúde geral. A consistência é o fator mais importante.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Posso tomar os sucos todos os dias?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Sim. As receitas do programa são seguras para consumo diário. Recomendamos 1 copo pela manhã, preferencialmente em jejum ou 30 minutos antes das refeições, para melhor absorção dos nutrientes.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            O gengibre pode causar algum problema?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">O gengibre é seguro para a maioria das pessoas. Porém, quem faz uso de anticoagulantes ou tem úlcera gástrica deve consultar um médico antes de consumir em grandes quantidades. Para uso moderado nas receitas do programa, é bem tolerado.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Os sucos substituem medicamentos como o Viagra?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Os sucos naturais são complementares, não substitutos de tratamentos médicos. Se você usa medicamentos prescritos, não os interrompa sem orientação médica. Os sucos atuam na melhoria do fluxo sanguíneo e nos níveis hormonais de forma gradual e natural.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Como armazenar os sucos preparados?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">O ideal é preparar e consumir imediatamente para aproveitar todos os nutrientes e enzimas. Se precisar guardar, mantenha em geladeira por no máximo 24 horas em recipiente de vidro bem fechado. Evite copos de plástico, pois reagem com os compostos ativos.</div>
+        </div>
+      </div>
+
+      <!-- Categoria 2: Sucos Naturais -->
+      <div class="faq-category">
+        <div class="faq-cat-title"><span class="faq-cat-icon">🥤</span> Sucos Naturais</div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Quais são os ingredientes mais poderosos para potência?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Os mais estudados e eficazes são: <strong>melancia</strong> (rica em citrulina, que vira arginina no corpo), <strong>beterraba</strong> (nitratos que melhoram a circulação), <strong>gengibre</strong> (gingeróis com ação anti-inflamatória), <strong>romã</strong> (antioxidantes potentes) e <strong>banana</strong> (potássio e vitamina B6).</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Posso misturar vários ingredientes no mesmo suco?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Sim! Combinações como melancia + gengibre + limão são especialmente potentes. Evite apenas misturar frutas muito ácidas com leite ou iogurte, pois podem causar desconforto digestivo. Siga as combinações mostradas nas aulas para melhores resultados.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Preciso de liquidificador ou serve um espremedor?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Para a maioria das receitas, o liquidificador é ideal pois extrai toda a fibra e nutrientes. O espremedor funciona bem para frutas cítricas (laranja, limão), mas não é adequado para beterraba ou melancia. Um liquidificador simples já é suficiente.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Os sucos funcionam bem sem açúcar?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Sim, e é preferível sem açúcar. O açúcar refinado pode causar picos de glicose que reduzem os benefícios vasculares. Se necessário, use uma colher pequena de mel natural puro. Com o tempo, o paladar se adapta e você sentirá o sabor natural dos ingredientes.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Qual é a melhor hora para tomar os sucos?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">De manhã em jejum é o ideal — o corpo absorve os nutrientes com muito mais eficiência. Outra boa opção estratégica é 1 hora antes da atividade sexual. Evite tomar junto com refeições pesadas para não diluir os efeitos.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Posso usar frutas congeladas nas receitas?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Sim, frutas congeladas mantêm boa parte dos nutrientes. Escolha versões sem açúcar adicionado. Para melancia e beterraba, o uso fresco dá melhores resultados por manter as enzimas ativas intactas.</div>
+        </div>
+      </div>
+
+      <!-- Categoria 3: Melhoria com a Parceira -->
+      <div class="faq-category">
+        <div class="faq-cat-title"><span class="faq-cat-icon">❤️</span> Melhoria com a Parceira</div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Como a alimentação afeta o relacionamento íntimo?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">A alimentação impacta diretamente a circulação sanguínea, os níveis hormonais e a energia vital. Uma dieta rica em antioxidantes e nitratos melhora o fluxo sanguíneo em todo o corpo, incluindo os órgãos sexuais, favorecendo o desempenho, a sensibilidade e o prazer para ambos.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            A minha parceira também pode tomar esses sucos?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Sim! Os sucos do programa beneficiam homens e mulheres. Para as mulheres, a combinação de beterraba com romã é especialmente recomendada, pois melhora a libido feminina, a lubrificação natural e os níveis de energia. Tomar juntos cria um ritual positivo para o casal.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Como manter a consistência e não desistir do programa?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">A dica principal é criar uma rotina firme: prepare o suco sempre no mesmo horário do dia, deixe os ingredientes já separados na geladeira no dia anterior e associe o hábito a algo que já faz diariamente, como o café da manhã. Resultados visíveis nos primeiros 7 dias já motivam a continuar.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Além dos sucos, o que mais posso fazer para melhorar?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Exercício físico regular (especialmente 30 min de caminhada ou cardio), sono de qualidade (7–8 horas), redução do estresse e diminuição do consumo de álcool e cigarro potencializam muito os resultados dos sucos. A combinação de todos esses fatores é o que traz resultados extraordinários.</div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" onclick="toggleFaq(this)">
+            Quanto tempo devo manter o programa para resultados duradouros?
+            <span class="faq-arrow">▼</span>
+          </button>
+          <div class="faq-answer">Recomendamos pelo menos 90 dias contínuos para resultados duradouros e profundos. Após esse período, manter o consumo regular de 4 a 5 vezes por semana é suficiente para sustentar todos os benefícios. A melhora na vitalidade e no relacionamento valerá cada dia.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="bg-footer text-footer-foreground py-5">
+    <p class="text-center text-xs">Todos os direitos reservados © 2026.</p>
+  </footer>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // Auth guard
+    if (!isLoggedIn()) window.location.href = 'login.html';
+
+    // Show welcome
+    var u = getUser();
+    if (u) document.getElementById('welcome-tag').textContent = 'Olá, ' + u;
+
+    function doLogout() {
+      logout();
+      window.location.href = 'login.html';
+    }
+
+    function showTab(name, btn) {
+      document.querySelectorAll('.section').forEach(function(s){ s.classList.remove('active'); });
+      document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+      document.getElementById('tab-' + name).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    function toggleFaq(btn) {
+      var item = btn.parentElement;
+      item.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

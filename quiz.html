@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Quiz — Gonosororo Natural</title>
+  <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','24710384898589911');fbq('track','PageView');</script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=24710384898589911&ev=PageView&noscript=1"/></noscript>
+  <script>window.pixelId="69d2a81bd89ddc8e6a310ea0";var a=document.createElement("script");a.setAttribute("async","");a.setAttribute("defer","");a.setAttribute("src","https://cdn.utmify.com.br/scripts/pixel/pixel.js");document.head.appendChild(a);</script>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html,body{background:#111;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;min-height:100vh;}
+    body{max-width:480px;margin:0 auto;position:relative;}
+
+    .screen{display:none;flex-direction:column;min-height:100vh;}
+    .screen.active{display:flex;}
+
+    /* HEADER */
+    .q-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;min-height:56px;}
+    .btn-back{background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;width:36px;display:flex;align-items:center;}
+    .logo{font-size:1.5rem;font-weight:900;font-style:italic;color:#fff;letter-spacing:-1px;}
+    .spacer{width:36px;}
+
+    /* PROGRESS */
+    .progress-bar{display:flex;align-items:center;justify-content:center;gap:6px;padding-bottom:6px;}
+    .pd{height:8px;border-radius:4px;background:#333;transition:all 0.3s;}
+    .pd.done{background:#e8184d;width:22px;}
+    .pd.active{background:#e8184d;width:28px;}
+    .pd.idle{width:8px;}
+
+    /* CONTENT */
+    .q-body{flex:1;padding:10px 20px 0;}
+    .q-label{font-size:0.65rem;font-weight:800;letter-spacing:0.15em;color:#e8184d;text-align:center;margin-bottom:14px;text-transform:uppercase;}
+    .q-title{font-size:1.45rem;font-weight:900;text-align:center;margin-bottom:6px;line-height:1.2;}
+    .q-sub{font-size:0.85rem;color:#aaa;text-align:center;margin-bottom:22px;line-height:1.4;}
+
+    /* AGE GRID */
+    .age-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;}
+    .age-card{border:2px solid #2e2e2e;border-radius:16px;overflow:hidden;cursor:pointer;transition:border-color 0.2s;background:#1e1e1e;position:relative;}
+    .age-card.selected{border-color:#e8184d;}
+    .age-card.selected .age-label-bar{background:#e8184d;}
+    .age-photo{width:100%;height:160px;object-fit:cover;display:block;background:#2a2a2a;}
+    .age-photo-placeholder{width:100%;height:160px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;background:linear-gradient(160deg,#1e1e1e,#2e2e2e);}
+    .age-label-bar{background:rgba(0,0,0,0.55);text-align:center;padding:10px 4px;font-weight:800;font-size:1rem;transition:background 0.2s;}
+
+    /* OPTION CARDS */
+    .opt-card{background:#1e1e1e;border:2px solid #2e2e2e;border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.2s;}
+    .opt-card.selected{background:#e8184d;border-color:#e8184d;}
+    .opt-icon{width:46px;height:46px;border-radius:12px;background:#2e2e2e;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;transition:background 0.2s;}
+    .opt-card.selected .opt-icon{background:rgba(255,255,255,0.15);}
+    .opt-label{font-size:0.95rem;font-weight:700;line-height:1.25;}
+    .opt-sub{font-size:0.75rem;color:#aaa;margin-top:2px;}
+    .opt-card.selected .opt-sub{color:rgba(255,255,255,0.75);}
+
+    /* BODY TYPE */
+    .body-card{background:#1e1e1e;border:2px solid #2e2e2e;border-radius:14px;padding:10px 16px;margin-bottom:10px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all 0.2s;}
+    .body-card.selected{background:#e8184d;border-color:#e8184d;}
+    .body-figure{width:48px;height:68px;border-radius:10px;background:#2e2e2e;display:flex;align-items:flex-end;justify-content:center;overflow:hidden;flex-shrink:0;}
+    .body-card.selected .body-figure{background:rgba(255,255,255,0.15);}
+    .body-label{font-size:0.95rem;font-weight:700;}
+
+    /* WELCOME SCREEN */
+    .welcome-photo{width:100%;height:340px;object-fit:cover;display:block;}
+    .welcome-photo-placeholder{width:100%;height:340px;background:linear-gradient(180deg,#1a1a1a 0%,#2d2d2d 100%);display:flex;align-items:center;justify-content:center;gap:-30px;overflow:hidden;}
+    .welcome-men{display:flex;align-items:flex-end;justify-content:center;width:100%;height:100%;padding-bottom:0;}
+    .man-figure{display:flex;flex-direction:column;align-items:center;gap:4px;}
+    .man-head{border-radius:50%;background:#4a3728;}
+    .man-body{border-radius:8px 8px 4px 4px;background:#3a2e25;}
+    .welcome-stats{padding:20px;text-align:center;}
+    .stat-number{font-size:2rem;font-weight:900;color:#e8184d;}
+    .stat-label{font-size:1rem;font-weight:600;color:#fff;margin-top:2px;}
+
+    /* SUCCESS SCREEN */
+    .success-wrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;text-align:center;}
+    .check-circle{width:100px;height:100px;background:#22c55e;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:28px;}
+    .check-circle svg{width:52px;height:52px;}
+    .success-title{font-size:1.5rem;font-weight:900;margin-bottom:12px;line-height:1.2;}
+    .success-sub{font-size:0.95rem;color:#aaa;line-height:1.55;max-width:280px;}
+
+    /* BUTTON */
+    .btn-continue{background:linear-gradient(90deg,#e8184d,#c01040);color:#fff;font-weight:800;font-size:1rem;padding:18px;border:none;border-radius:14px;width:calc(100% - 40px);margin:16px 20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:opacity 0.2s;}
+    .btn-continue:hover{opacity:0.9;}
+    .btn-continue .arr{font-size:1.1rem;}
+
+    /* BODY SVG SILHOUETTES */
+    .sil{fill:#666;}
+    .body-card.selected .sil{fill:rgba(255,255,255,0.7);}
+  </style>
+</head>
+<body>
+
+<!-- ===== SCREEN 0: WELCOME ===== -->
+<div id="s0" class="screen active">
+  <div class="q-header">
+    <div class="spacer"></div>
+    <span class="logo">)(</span>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="welcome-photo-placeholder">
+    <!-- Silhuetas de 3 homens negros -->
+    <svg viewBox="0 0 340 300" width="340" height="300" xmlns="http://www.w3.org/2000/svg">
+      <!-- Homem esquerdo -->
+      <ellipse cx="80" cy="80" rx="30" ry="34" fill="#3d2b1f"/>
+      <rect x="52" y="112" width="56" height="90" rx="10" fill="#2e2015"/>
+      <rect x="38" y="116" width="18" height="70" rx="8" fill="#2e2015"/>
+      <rect x="90" y="116" width="18" height="70" rx="8" fill="#2e2015"/>
+      <rect x="54" y="196" width="22" height="80" rx="8" fill="#251a10"/>
+      <rect x="78" y="196" width="22" height="80" rx="8" fill="#251a10"/>
+      <!-- Homem central (maior) -->
+      <ellipse cx="170" cy="68" rx="36" ry="40" fill="#4a3525"/>
+      <rect x="136" y="106" width="68" height="108" rx="12" fill="#362510"/>
+      <rect x="118" y="110" width="22" height="82" rx="9" fill="#362510"/>
+      <rect x="186" y="110" width="22" height="82" rx="9" fill="#362510"/>
+      <rect x="138" y="208" width="26" height="90" rx="9" fill="#2a1c0c"/>
+      <rect x="166" y="208" width="26" height="90" rx="9" fill="#2a1c0c"/>
+      <!-- Homem direito -->
+      <ellipse cx="260" cy="82" rx="30" ry="34" fill="#3d2b1f"/>
+      <rect x="232" y="114" width="56" height="90" rx="10" fill="#2e2015"/>
+      <rect x="218" y="118" width="18" height="70" rx="8" fill="#2e2015"/>
+      <rect x="270" y="118" width="18" height="70" rx="8" fill="#2e2015"/>
+      <rect x="234" y="198" width="22" height="80" rx="8" fill="#251a10"/>
+      <rect x="258" y="198" width="22" height="80" rx="8" fill="#251a10"/>
+    </svg>
+  </div>
+
+  <div class="welcome-stats">
+    <div class="q-title" style="margin-bottom:8px;">Bem-vindo à sua jornada!</div>
+    <div class="stat-number">1.243.000+</div>
+    <div class="stat-label">homens já escolheram</div>
+  </div>
+
+  <button class="btn-continue" onclick="goTo(1)">Continuar <span class="arr">→</span></button>
+</div>
+
+<!-- ===== SCREEN 1: IDADE ===== -->
+<div id="s1" class="screen">
+  <div class="q-header">
+    <button class="btn-back" onclick="goTo(0)">←</button>
+    <span class="logo">)(</span>
+    <div class="spacer"></div>
+  </div>
+  <div class="progress-bar" id="prog1"></div>
+  <div class="q-body">
+    <div class="q-label">Quiz de 1 minuto</div>
+    <div class="q-title">Qual é a sua faixa etária?</div>
+    <div class="q-sub">Selecione uma opção</div>
+
+    <div class="age-grid">
+      <div class="age-card" onclick="selectAge(this,'18-30')">
+        <div class="age-photo-placeholder">
+          <!-- Homem negro jovem 18-30 -->
+          <svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="32" rx="22" ry="25" fill="#3d2b1f"/>
+            <rect x="22" y="55" width="56" height="55" rx="10" fill="#2e2015"/>
+            <rect x="10" y="58" width="15" height="44" rx="7" fill="#2e2015"/>
+            <rect x="75" y="58" width="15" height="44" rx="7" fill="#2e2015"/>
+          </svg>
+        </div>
+        <div class="age-label-bar">18–30</div>
+      </div>
+      <div class="age-card" onclick="selectAge(this,'31-45')">
+        <div class="age-photo-placeholder">
+          <svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="32" rx="22" ry="25" fill="#4a3020"/>
+            <rect x="22" y="55" width="56" height="55" rx="10" fill="#3a2418"/>
+            <rect x="10" y="58" width="15" height="44" rx="7" fill="#3a2418"/>
+            <rect x="75" y="58" width="15" height="44" rx="7" fill="#3a2418"/>
+            <!-- leve barba -->
+            <ellipse cx="50" cy="52" rx="14" ry="5" fill="#2a1a0e" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="age-label-bar">31–45</div>
+      </div>
+      <div class="age-card" onclick="selectAge(this,'46-55')">
+        <div class="age-photo-placeholder">
+          <svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="32" rx="22" ry="25" fill="#4a3020"/>
+            <rect x="22" y="55" width="56" height="55" rx="10" fill="#3a2418"/>
+            <rect x="10" y="58" width="15" height="44" rx="7" fill="#3a2418"/>
+            <rect x="75" y="58" width="15" height="44" rx="7" fill="#3a2418"/>
+            <!-- cabelo grisalho leve -->
+            <ellipse cx="50" cy="14" rx="20" ry="8" fill="#888" opacity="0.3"/>
+          </svg>
+        </div>
+        <div class="age-label-bar">46–55</div>
+      </div>
+      <div class="age-card" onclick="selectAge(this,'56+')">
+        <div class="age-photo-placeholder">
+          <svg viewBox="0 0 100 120" width="100" height="120" xmlns="http://www.w3.org/2000/svg">
+            <ellipse cx="50" cy="32" rx="22" ry="25" fill="#4a3020"/>
+            <rect x="22" y="55" width="56" height="55" rx="10" fill="#3a2418"/>
+            <rect x="10" y="58" width="15" height="44" rx="7" fill="#3a2418"/>
+            <rect x="75" y="58" width="15" height="44" rx="7" fill="#3a2418"/>
+            <!-- cabelo/barba grisalha -->
+            <ellipse cx="50" cy="14" rx="20" ry="8" fill="#aaa" opacity="0.45"/>
+            <ellipse cx="50" cy="52" rx="14" ry="5" fill="#aaa" opacity="0.35"/>
+          </svg>
+        </div>
+        <div class="age-label-bar">56+</div>
+      </div>
+    </div>
+    <p style="font-size:0.65rem;color:#555;text-align:center;line-height:1.5;margin-bottom:16px;">Ao continuar, concorda com os nossos <u>Termos de Uso</u>, <u>Política de Privacidade</u> e o uso do Meta Pixel.</p>
+  </div>
+  <button class="btn-continue" id="btn1" onclick="goTo(2)" style="opacity:0.4;pointer-events:none;">Continuar <span class="arr">→</span></button>
+</div>
+
+<!-- ===== SCREEN 2: OBJETIVO ===== -->
+<div id="s2" class="screen">
+  <div class="q-header">
+    <button class="btn-back" onclick="goTo(1)">←</button>
+    <span class="logo">)(</span>
+    <div class="spacer"></div>
+  </div>
+  <div class="progress-bar" id="prog2"></div>
+  <div class="q-body">
+    <div class="q-title">Escolha o seu objetivo principal</div>
+    <div class="q-sub">Selecione uma opção</div>
+
+    <div class="opt-card" onclick="selectOpt(this,'goal')">
+      <div class="opt-icon">⏳</div>
+      <div>
+        <div class="opt-label">Durar mais durante o sexo</div>
+        <div class="opt-sub">Melhorar o controlo e resistência</div>
+      </div>
+    </div>
+    <div class="opt-card" onclick="selectOpt(this,'goal')">
+      <div class="opt-icon">💪</div>
+      <div>
+        <div class="opt-label">Ter ereções mais fortes</div>
+        <div class="opt-sub">Melhorar o fluxo sanguíneo e rigidez</div>
+      </div>
+    </div>
+    <div class="opt-card" onclick="selectOpt(this,'goal')">
+      <div class="opt-icon">📈</div>
+      <div>
+        <div class="opt-label">Melhorar os dois acima</div>
+        <div class="opt-sub">Resultado completo em potência e desempenho</div>
+      </div>
+    </div>
+  </div>
+  <button class="btn-continue" id="btn2" onclick="goTo(3)" style="opacity:0.4;pointer-events:none;">Continuar <span class="arr">→</span></button>
+</div>
+
+<!-- ===== SCREEN 3: TIPO DE CORPO ===== -->
+<div id="s3" class="screen">
+  <div class="q-header">
+    <button class="btn-back" onclick="goTo(2)">←</button>
+    <span class="logo">)(</span>
+    <div class="spacer"></div>
+  </div>
+  <div class="progress-bar" id="prog3"></div>
+  <div class="q-body">
+    <div class="q-title">Escolha o seu tipo de corpo</div>
+    <div class="q-sub">A gordura corporal afecta a testosterona — veja como impacta a sua saúde sexual</div>
+
+    <!-- Magro -->
+    <div class="body-card" onclick="selectOpt(this,'body')">
+      <div class="body-figure">
+        <svg viewBox="0 0 48 68" width="48" height="68" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="sil" cx="24" cy="12" rx="10" ry="11"/>
+          <rect class="sil" x="16" y="22" width="16" height="28" rx="5"/>
+          <rect class="sil" x="8" y="24" width="9" height="20" rx="4"/>
+          <rect class="sil" x="31" y="24" width="9" height="20" rx="4"/>
+          <rect class="sil" x="16" y="48" width="7" height="20" rx="4"/>
+          <rect class="sil" x="25" y="48" width="7" height="20" rx="4"/>
+        </svg>
+      </div>
+      <div class="body-label">Magro</div>
+    </div>
+    <!-- Normal -->
+    <div class="body-card" onclick="selectOpt(this,'body')">
+      <div class="body-figure">
+        <svg viewBox="0 0 48 68" width="48" height="68" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="sil" cx="24" cy="12" rx="11" ry="11"/>
+          <rect class="sil" x="13" y="22" width="22" height="28" rx="6"/>
+          <rect class="sil" x="5" y="24" width="10" height="22" rx="5"/>
+          <rect class="sil" x="33" y="24" width="10" height="22" rx="5"/>
+          <rect class="sil" x="14" y="48" width="8" height="20" rx="4"/>
+          <rect class="sil" x="26" y="48" width="8" height="20" rx="4"/>
+        </svg>
+      </div>
+      <div class="body-label">Normal</div>
+    </div>
+    <!-- Fora de forma -->
+    <div class="body-card" onclick="selectOpt(this,'body')">
+      <div class="body-figure">
+        <svg viewBox="0 0 48 68" width="48" height="68" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="sil" cx="24" cy="12" rx="12" ry="11"/>
+          <ellipse class="sil" cx="24" cy="34" rx="16" ry="14"/>
+          <rect class="sil" x="3" y="24" width="11" height="22" rx="5"/>
+          <rect class="sil" x="34" y="24" width="11" height="22" rx="5"/>
+          <rect class="sil" x="13" y="46" width="9" height="22" rx="5"/>
+          <rect class="sil" x="26" y="46" width="9" height="22" rx="5"/>
+        </svg>
+      </div>
+      <div class="body-label">Fora de forma</div>
+    </div>
+    <!-- Acima do peso -->
+    <div class="body-card" onclick="selectOpt(this,'body')">
+      <div class="body-figure">
+        <svg viewBox="0 0 48 68" width="48" height="68" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="sil" cx="24" cy="11" rx="12" ry="11"/>
+          <ellipse class="sil" cx="24" cy="35" rx="19" ry="17"/>
+          <rect class="sil" x="1" y="24" width="12" height="24" rx="5"/>
+          <rect class="sil" x="35" y="24" width="12" height="24" rx="5"/>
+          <rect class="sil" x="12" y="49" width="10" height="19" rx="5"/>
+          <rect class="sil" x="26" y="49" width="10" height="19" rx="5"/>
+        </svg>
+      </div>
+      <div class="body-label">Acima do peso</div>
+    </div>
+    <!-- Obeso -->
+    <div class="body-card" onclick="selectOpt(this,'body')">
+      <div class="body-figure">
+        <svg viewBox="0 0 48 68" width="48" height="68" xmlns="http://www.w3.org/2000/svg">
+          <ellipse class="sil" cx="24" cy="11" rx="13" ry="11"/>
+          <ellipse class="sil" cx="24" cy="37" rx="22" ry="20"/>
+          <rect class="sil" x="0" y="26" width="12" height="24" rx="5"/>
+          <rect class="sil" x="36" y="26" width="12" height="24" rx="5"/>
+          <rect class="sil" x="11" y="52" width="11" height="16" rx="5"/>
+          <rect class="sil" x="26" y="52" width="11" height="16" rx="5"/>
+        </svg>
+      </div>
+      <div class="body-label">Obeso</div>
+    </div>
+  </div>
+  <button class="btn-continue" id="btn3" onclick="goTo(4)" style="opacity:0.4;pointer-events:none;">Continuar <span class="arr">→</span></button>
+</div>
+
+<!-- ===== SCREEN 4: SUCESSO ===== -->
+<div id="s4" class="screen">
+  <div class="q-header">
+    <div class="spacer"></div>
+    <span class="logo">)(</span>
+    <div class="spacer"></div>
+  </div>
+  <div class="success-wrap">
+    <div class="check-circle">
+      <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 26L21 37L42 16" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="success-title">Acabou de definir<br>o seu primeiro objetivo!</div>
+    <p class="success-sub">Parabéns por começar o seu caminho para mais força e bem-estar íntimo.</p>
+  </div>
+  <button class="btn-continue" onclick="finish()">Continuar <span class="arr">→</span></button>
+</div>
+
+<script>
+  var totalSteps = 3;
+
+  function renderProgress(screen) {
+    var ids = ['prog1','prog2','prog3'];
+    for (var i = 0; i < ids.length; i++) {
+      var el = document.getElementById(ids[i]);
+      if (!el) continue;
+      var step = i + 1;
+      el.innerHTML = '';
+      for (var j = 1; j <= totalSteps; j++) {
+        var d = document.createElement('div');
+        d.className = 'pd ' + (j < step ? 'done' : j === step ? 'active' : 'idle');
+        el.appendChild(d);
+      }
+    }
+  }
+  renderProgress();
+
+  function goTo(n) {
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
+    document.getElementById('s'+n).classList.add('active');
+    window.scrollTo(0,0);
+  }
+
+  function selectAge(card, val) {
+    document.querySelectorAll('.age-card').forEach(function(c){ c.classList.remove('selected'); });
+    card.classList.add('selected');
+    var btn = document.getElementById('btn1');
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+    localStorage.setItem('quiz_age', val);
+  }
+
+  function selectOpt(card, group) {
+    var parent = card.parentElement;
+    parent.querySelectorAll('.opt-card, .body-card').forEach(function(c){ c.classList.remove('selected'); });
+    card.classList.add('selected');
+    var screen = card.closest('.screen');
+    var btn = screen.querySelector('.btn-continue');
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+  }
+
+  function finish() {
+    localStorage.setItem('quiz_done', '1');
+    window.location.href = 'index.html';
+  }
+</script>
+</body>
+</html>
